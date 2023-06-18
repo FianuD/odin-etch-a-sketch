@@ -1,9 +1,11 @@
+let color = "black";
+
 document.addEventListener("DOMContentLoaded", function(){
     createBoard(16);
 })
 
 function createBoard(size){
-    let board = document.querySelector(".board");
+    const board = document.querySelector(".board");
 
     board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
     board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -12,9 +14,7 @@ function createBoard(size){
 
     for(let i = 0; i < numDivs; i++){
         let div = document.createElement("div");
-        div.addEventListener("mouseover", function(){
-            div.style.backgroundColor = "black";
-        })
+        div.addEventListener("mouseover", colorDiv);
         board.insertAdjacentElement("beforeend", div);
     }
 }
@@ -38,4 +38,37 @@ const selectButton = document.querySelector("#popup");
 selectButton.addEventListener("click", () => {
     let size = getSize();
     createBoard(size);
+});
+
+function colorDiv() {
+    if(color == "random"){
+        this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    }
+    else {
+        this.style.backgroundColor = "black";
+    }
+}
+
+function setColor(colorChoice) {
+    color = colorChoice;
+}
+
+const blackButton = document.querySelector("#blackButton");
+const randomButton = document.querySelector("#randomButton");
+const resetButton = document.querySelector("#resetButton");
+
+randomButton.addEventListener("click", ()=> {
+    setColor("random");
+});
+blackButton.addEventListener("click", () => {
+    setColor("black");
+});
+
+function resetBoard(){
+    let divs = document.querySelectorAll("div");
+    divs.forEach((div) => div.style.backgroundColor = "white");
+}
+
+resetButton.addEventListener("click", () => {
+    resetBoard();
 });
